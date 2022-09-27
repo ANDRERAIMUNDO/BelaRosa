@@ -1,0 +1,26 @@
+
+
+<ion-content class="content"></ion-content>
+
+<ion-router-outlet id="main"></ion-router-outlet>
+<ion-tabs>
+  <ion-tab-bar slot="bottom" >
+    <ion-tab-button tab="categorias">
+      <ion-icon name="reorder-three-outline"></ion-icon>
+      <ion-label>Categorias</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="cart">
+      <ion-icon name="cart-outline"></ion-icon>
+      <ion-label>Carinho</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="profile" >
+      <ion-icon name="person-circle"></ion-icon>
+      <ion-label>Meu Perfil</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="sair" (click)="logout()">
+      <ion-icon name="log-out-outline"></ion-icon>
+      <ion-label>Sair</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+

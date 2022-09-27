@@ -1,0 +1,249 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item>
+      <ion-avatar slot="end">
+        <img [src]="registro?.imageUrl || '../../assets/person.svg'">
+      </ion-avatar>
+      <ion-label>
+        <h3>{{registro?.cliente?.name}}</h3>
+        <p>{{dia}}/{{mes}}/{{ano}}</p>
+        <p>{{registro?.email}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="successUpdate" id="container" padding>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <p> Suas informações foram atualizadas. </p>
+  <p> Faça login novamente</p>
+  <ion-button color="light" expand="block" (click)="sucess()"> Continuar </ion-button>
+  <app-explore-container> </app-explore-container>
+</ion-content>
+
+<ion-content *ngIf="!successUpdate" padding>
+
+    <div *ngIf="updateRegistroValue && updateClienteValue && updateAddressValue">
+      <ion-item lines="none">
+        <ion-label>
+          <h3>Nome: {{registro?.cliente?.name}}</h3>
+          <h3>Contato: ({{area}}) {{num}}</h3>
+          <p>Data de Nascimento: {{dia}}/{{mes}}/{{ano}}</p>
+          <p>CPF: {{firstDigits}}.{{secundDigits}}.{{thirdDigist}}-{{lastDigits}}</p>
+          <p>Email: {{registro?.email}}</p>
+          <ion-button color="light" (click)="updateOnCliente()">Informações pessoais</ion-button>
+        </ion-label>
+        <ion-thumbnail>
+        <img [src]="registro?.imageUrl || '../../assets/person.svg'">
+        </ion-thumbnail>
+      </ion-item>
+    <ion-button color="light" (click)="updateOnRegistro()">Atualização segurança</ion-button>
+    </div>
+     <!--update Registro-->
+    <div *ngIf="!updateRegistroValue">
+      <!--atualizacao de email-->
+      <form [formGroup]="formGroupUpdateEmail" (ngSubmit)="updateEmail(formGroupUpdateEmail.value)">
+        <ion-list>
+        <!--email-->
+            <ion-label>
+              <h5>Novo Email</h5>
+            </ion-label>
+            <ion-item>
+              <ion-input formControlName="email" class="email" placeholder="{{email}}" type="email" required></ion-input>
+            </ion-item>
+            <p *ngIf="formGroupUpdateEmail.controls.email.dirty && formGroupUpdateEmail.controls.email.errors" margin-left>Email invalido. </p>
+            <p *ngIf="emailMsg">Emails estão diferentes. </p>
+          <!--emailConfirm-->
+            <ion-label>
+              <h5>Confirmar novo Email</h5>
+            </ion-label>
+            <ion-item>
+              <ion-input formControlName="emailConfirm" class="email" placeholder="{{email}}" type="email" (ionChange)="onChangeEmail($event)" required></ion-input>
+            </ion-item>
+            <p *ngIf="formGroupUpdateEmail.controls.emailConfirm.dirty && formGroupUpdateEmail.controls.emailConfirm.errors" margin-left>Email invalido. </p>
+            <p *ngIf="emailMsg">Emails estão diferentes. </p>
+          <ion-button disabled = "{{button}}" *ngIf="!validEmailMsg" type="submit" color="light">
+            <ion-spinner *ngIf="sniper" color="secondary" > </ion-spinner>
+              <p *ngIf="sniper"> Atualizando ... </p>
+              <p *ngIf="!sniper"> Alterar informações </p>
+          </ion-button>
+        </ion-list>
+      </form>
+       <!--atualizacao de senha-->
+      <form [formGroup]="formGroupUpdatePassword" (ngSubmit)="updatePassword(formGroupUpdatePassword.value)">
+        <ion-list>
+            <!--password-->
+            <ion-label>
+              <h5>Nova senha</h5>
+            </ion-label>
+           <ion-item>
+             <ion-input formControlName="password" placeholder="*************" type={{senha}} required ></ion-input>
+             <ion-button id="container-button" color="light" fill="clear" slot="end" (click)="showPassword()">
+               <img id="imagem-visao" src="../../assets/visao.png"/>
+            </ion-button>
+          </ion-item>
+             <p *ngIf="formGroupUpdatePassword.controls.password.dirty && formGroupUpdatePassword.controls.password.errors" margin-left>Senha não atende os requisitos minimos.</p>
+             <p *ngIf="passwordMsg">Senhas estão diferentes. </p>
+          <!--password Confirm-->
+            <ion-label>
+             <h5>Repetir nova senha</h5>
+            </ion-label>
+            <ion-item>
+               <ion-input formControlName="passwordConfirm" placeholder="*************" type={{senha}} (ionChange)="onChangePassword($event)" required ></ion-input>
+               <ion-button id="container-button" color="light" fill="clear" slot="end" (click)="showPassword()">
+                <img id="imagem-visao" src="../../assets/visao.png"/>
+               </ion-button>
+            </ion-item>
+              <p *ngIf="formGroupUpdatePassword.controls.passwordConfirm.dirty && formGroupUpdatePassword.controls.passwordConfirm.errors" margin-left>Senha não atende os requisitos minimos.</p>
+              <p *ngIf="passwordMsg">Senhas estão diferentes. </p>
+            <ion-button disabled = "{{button}}" *ngIf="!validPasswordMsg" type="submit" color="light">
+              <ion-spinner *ngIf="sniper" color="secondary" > </ion-spinner>
+              <p *ngIf="sniper"> Atualizando ... </p>
+              <p *ngIf="!sniper"> Alterar informações </p>
+            </ion-button>
+         </ion-list>
+      </form>
+        <ion-button [disabled]="formGroupUpdateEmail.valid ||formGroupUpdatePassword.valid" (click)="reload()"type="submit" color="light">Cancelar</ion-button>
+     </div>
+     <!--updateImageClient-->
+    <div *ngIf="updateRegistroValue && updateClienteValue && updateAddressValue">
+      <ion-label>
+        <p>Carregar imagem perfil</p>
+        <ion-button [routerLink]="['./profile-photo']" color="light">Enviar imagem</ion-button>
+      </ion-label>
+      <ion-item>
+        <ion-label>
+          <h3>Endereço: {{endereco?.logradouro}}, {{endereco?.numero}}</h3>
+          <h3>{{endereco?.complemento}} {{endereco?.bairro}} CEP {{endereco?.cep}}</h3>
+          <p>Cidade: {{endereco?.localidade}}, {{endereco?.uf}}</p>
+          <ion-button color="light" (click)="updateOnAddress()">Atualizar endereco</ion-button>
+        </ion-label>
+      </ion-item>
+    </div>
+    <!--updateCliente-->
+    <div *ngIf="!updateClienteValue">
+      <form [formGroup]="formGroupUpdateCliente" (ngSubmit)="updateCliente(formGroupUpdateCliente.value)">
+        <ion-list>
+        <!--Nome-->
+        <ion-label>
+          <h5>Cliente</h5>
+        </ion-label>
+        <ion-item>
+          <ion-input type="text" class="ion-text-uppercase" disabled>{{registro?.cliente?.name}}</ion-input>
+        </ion-item>
+        <!--cpf-->
+        <ion-label>
+          <h5>CPF</h5>
+        </ion-label>
+        <ion-item>
+          <ion-input type="text" disabled>{{firstDigits}}.{{secundDigits}}.{{thirdDigist}}-{{lastDigits}}</ion-input>
+        </ion-item>
+        <!--data de nascimento-->
+        <ion-label>
+          <h5>Data de Nascimento</h5>
+        </ion-label>
+        <ion-item>
+          <ion-input disabled>{{dia}}/{{mes}}/{{ano}}</ion-input>
+        </ion-item>
+        <!--telefone-->
+        <ion-label>
+          <h5>Celular</h5>
+        </ion-label>
+        <ion-item>
+          <ion-input formControlName ="phone" placeholder="({{area}}) {{num}}" maxlength="11" inputmode="numeric" type="tel" clear-input required></ion-input>
+        </ion-item>
+        <p *ngIf="formGroupUpdateCliente.controls.phone.dirty && formGroupUpdateCliente.controls.phone.errors" margin-left>Digite o número do celular.</p>
+      </ion-list>
+      <ion-button disabled = "{{button}}" [disabled]="formGroupUpdateCliente.invalid" type="submit" color="light">
+        <ion-spinner *ngIf="sniper" color="secondary" duration = 3 > </ion-spinner>
+        <p *ngIf="sniper"> Atualizando ... </p>
+        <p *ngIf="!sniper"> Alterar informações </p>
+      </ion-button>
+      </form>
+      <ion-button disabled = "{{button}}" [disabled]="formGroupUpdateCliente.valid" type="submit" color="light" (click)="reload()">Cancelar</ion-button>
+     </div>
+      <!--update Addrress-->
+    <div *ngIf="!updateAddressValue">
+        <form [formGroup]="formGroupUpdateAddress" (ngSubmit)="updateAddress(formGroupUpdateAddress.value)">
+        <ion-list>
+          <ion-label>
+            <h5>Cep</h5>
+          </ion-label>
+        <ion-item>
+          <ion-input formControlName="cep" placeholder="{{endereco?.cep}}" type="number" required ></ion-input>
+        </ion-item>
+        <p>Digite ou insira seu endereço nanualmente <ion-button color="light" (click)="getViaCep()">buscar</ion-button></p>
+        <p *ngIf="formGroupUpdateAddress.controls.cep.dirty && formGroupUpdateAddress.controls.cep.errors" margin-left>Digite um cep valido. </p>
+        <!--logradouro-->
+        <ion-label>
+        <h5>Endereço</h5>
+        </ion-label>
+        <ion-item>
+          <ion-input formControlName="logradouro"  placeholder="{{endereco?.logradouro}}" type="text" value='{{endereco?.logradouro}}' required> </ion-input>
+        </ion-item>
+        <p *ngIf="formGroupUpdateAddress.controls.logradouro.dirty && formGroupUpdateAddress.controls.logradouro.errors" margin-left>Obrigatório. </p>
+        <!--numero-->
+        <ion-label>
+          <h5>Número</h5>
+        </ion-label>
+        <ion-item>
+          <ion-input formControlName="numero"  placeholder="{{endereco?.numero}}" type="text" required></ion-input>
+        </ion-item>
+        <p *ngIf="formGroupUpdateAddress.controls.numero.dirty && formGroupUpdateAddress.controls.numero.errors" margin-left>Obrigatório. </p>
+        <!--complemento-->
+        <ion-label>
+          <h5>Complemento</h5>
+        </ion-label>
+        <ion-item>
+          <ion-input formControlName="complemento" placeholder="{{endereco?.complemento}}" type="text" value='{{endereco?.complemento}}' required> </ion-input>
+        </ion-item>
+        <p *ngIf="formGroupUpdateAddress.controls.complemento.dirty && formGroupUpdateAddress.controls.complemento.errors" margin-left>Obrigatório. </p>
+        <!--bairro-->
+        <ion-label>
+          <h5>Bairro</h5>
+        </ion-label>
+        <ion-item>
+          <ion-input formControlName="bairro"  placeholder="{{endereco?.bairro}}" type="text" value='{{endereco?.bairro}}' required> </ion-input>
+        </ion-item>
+        <p *ngIf="formGroupUpdateAddress.controls.bairro.dirty && formGroupUpdateAddress.controls.bairro.errors" margin-left>Obrigatório. </p>
+         <!--localidade-->
+         <ion-label>
+          <h5>Cidade</h5>
+        </ion-label>
+        <ion-item>
+          <ion-input formControlName="localidade"  placeholder="{{endereco?.localidade}}" type="text" value='{{endereco?.localidade}}' required> </ion-input>
+        </ion-item>
+        <p *ngIf="formGroupUpdateAddress.controls.localidade.dirty && formGroupUpdateAddress.controls.localidade.errors" margin-left>Obrigatório. </p>
+        <!--uf-->
+        <ion-label>
+          <h5>Estado</h5>
+        </ion-label>
+        <ion-item>
+          <ion-input formControlName="uf"  placeholder="{{endereco?.uf}}" type="text" value='{{endereco?.uf}}' required> </ion-input>
+        </ion-item>
+        <p *ngIf="formGroupUpdateAddress.controls.uf.dirty && formGroupUpdateAddress.controls.uf.errors" margin-left>Obrigatório. </p>
+        <ion-button disabled = "{{button}}" [disabled]="formGroupUpdateAddress.invalid" type="submit" color="light">
+          <ion-spinner *ngIf="sniper" color="secondary" > </ion-spinner>
+          <p *ngIf="sniper"> Atualizando ... </p>
+          <p *ngIf="!sniper"> Alterar informações </p>
+        </ion-button>
+      </ion-list>
+      </form>
+      <ion-button type="submit" color="light" (click)="reload()">Cancelar</ion-button>
+    </div>
+  
+    <div *ngIf="updateRegistroValue && updateClienteValue && updateAddressValue">
+      <h4 slot="start">Meus pedidos</h4>
+      <ion-button (click)="ShowPedidos()" color="light">Lista completa</ion-button>
+    </div>
+  
+<app-explore-container> </app-explore-container>
+</ion-content>
+
+
+
+

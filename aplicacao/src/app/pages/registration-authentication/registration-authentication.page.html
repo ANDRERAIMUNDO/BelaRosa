@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title><h5>Finalizar Cadastro</h5></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content"[fullscreen]="true">
+  <div id="container">
+    <img src="../../assets/logobelarosa.png" />
+    <br>
+    <br>
+    <h5 class="ion-text-center">Passo 2 de 3</h5>
+    <div class="ion-padding-top">
+      <div class="ion-padding">
+        <div class="ion-text-center"> 
+          <form>
+            <div class="form-group">
+              <ion-item lines="full">
+                <ion-label position="floating">Email</ion-label>
+                <ion-input type="text" class="form-control" id="email" required [(ngModel)]="credenciais.email" name="email"> </ion-input>
+              </ion-item>
+              </div>
+
+             <div class="form-group">
+                <ion-item lines="full">
+                <ion-label position="floating">Password</ion-label>
+                <ion-input type={{senha}} class="form-control" id="password" required [(ngModel)]="credenciais.password" name="password"> </ion-input>
+
+                <ion-button id="container-button" color="light" fill="clear" slot="end" (click)="showPassword()">
+                  <img id="imagem-visao" src="../../assets/visao.png"/>
+               </ion-button>
+              </ion-item>
+            </div>
+
+            <ion-row>
+              <ion-col>
+                <ion-button disabled = "{{button}}" type="submit" color="light" expand="block" (click)="login()">
+                  <ion-spinner *ngIf="sniper" color="secondary"> </ion-spinner>
+                    <p *ngIf="sniper"> validando usuario ...</p>
+                    <p *ngIf="!sniper">Avançar</p>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </ion-content>

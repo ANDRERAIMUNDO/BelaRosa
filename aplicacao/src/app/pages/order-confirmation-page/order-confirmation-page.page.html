@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title><h6>Confirme os dados antes de finalizar pedido</h6></ion-title>
+    <ion-title *ngIf="!mpcodpedido"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<div *ngIf="!mpcodpedido">
+  
+  <ion-card>
+      <ion-card-subtitle>Seu pedido</ion-card-subtitle>
+      <ion-card-content *ngFor="let item of cardItems">
+        <h5>{{item.quantidade}} {{item.produto.name}} : </h5> <h6>R$ {{item.produto.price * item.quantidade| number}}</h6>
+      </ion-card-content>
+      <ion-card-content>
+       <h5> Valor total de: </h5> <h6> R$ {{payment.transactionAmount + installment.installment_rate | number}}</h6>
+      </ion-card-content>
+    
+    <ion-card-content>
+      <h6>
+        {{endereco?.logradouro}}, {{endereco?.numero}}
+        {{endereco?.complemento}} {{endereco?.bairro}} CEP {{endereco?.cep}}
+        {{endereco?.localidade}}, {{endereco?.uf}}
+      </h6>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+
+    <ion-card-content><h5>Cliente: </h5> <h6>{{registro?.cliente?.name}}</h6> </ion-card-content>
+    <ion-card-content><h5>CPF: </h5> <h6>{{startcpf}}******{{endcpf}}</h6> </ion-card-content>
+    <ion-card-content><h5>Email: </h5> <h6>{{registro?.email}}</h6> </ion-card-content>
+    <ion-card-content *ngIf="pedido.pagamento['@type']=='pagamentoCartao'">
+      <h6> Compras em {{ payment.installments }} de {{ installment.installment_rate / payment.installments + payment.transactionAmount / payment.installments | currency }} </h6>
+    </ion-card-content>
+    <ion-card-content *ngIf="pedido.pagamento['@type']=='pagamentoCartao'">
+    <ion-card-subtitle> <h5>Titular do cartão</h5> </ion-card-subtitle>
+    <ion-card-content class="ion-text-uppercase"><h6>{{dataCartao?.titular}}</h6> </ion-card-content>
+    <ion-card-content><h5>Número do cartão: </h5> <h6>{{startNumeroCartao}}***-***{{endNumeroCartao}}</h6> </ion-card-content>
+    <ion-card-content><h5>Validade: </h5> <h6>{{startValidCartao}}/{{endValidCartao}}</h6> </ion-card-content>
+    </ion-card-content>
+    
+    <ion-card-content>
+      <form [formGroup]="formGroup">
+        <ion-label>codigo de segurança</ion-label>
+        <ion-item>
+          <ion-input formControlName="card_cvv" color="danger" inputmode="tel" type="numeric" maxlength="3" required></ion-input>
+          <p *ngIf="formGroup.controls.card_cvv.dirty && formGroup.controls.card_cvv.errors" margin-left>Insira codigo. </p>
+        </ion-item>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <h1>Finalizar pedido.</h1>
+  <ion-button disabled = "{{button}}" *ngIf="formGroup.controls.card_cvv.valid && formGroup.controls.card_cvv.valid" type="submit" color="light" expand="block" (click)="checkoutMp()">
+    <ion-spinner *ngIf="sniper" color="secondary" duration = 3 > </ion-spinner>
+    <p *ngIf="sniper"> aguarde ...</p>
+    <p *ngIf="!sniper">Finalizar compra</p>
+  </ion-button>
+  <h6>Após confirmação você redirecionado a pagina inicial</h6>
+
+</div>
+
+<div ion-text-center *ngIf="mpcodpedido">
+  <ion-card>
+    <ion-card-header> 
+      <ion-card-subtitle> <h5>A BelaRosa agradece sua preferência</h5> </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <h6>
+        Em breve você receberá um email com processamento de seu pedido.
+      </h6>
+    </ion-card-content>
+    <ion-card-content>
+      <h6 *ngIf="codpedido">Codigo do pedido:</h6> {{codpedido}}
+      <h6 *ngIf="codpedido">Sua compra foi aprovada.</h6>
+      <h6>Status do pedido:</h6> {{paymentAccredited}} {{paymentRejected}}
+    </ion-card-content>
+  </ion-card>
+  <ion-button *ngIf="paymentRejected"[routerLink]="['/dashboard/cart']" color="light" block outline expand="block" > Tentar comprar novamente </ion-button>
+  <ion-button [routerLink]="['/dashboard/index']" color="light" block outline expand="block" > Inicio </ion-button>    
+</div>
+
+</ion-content>

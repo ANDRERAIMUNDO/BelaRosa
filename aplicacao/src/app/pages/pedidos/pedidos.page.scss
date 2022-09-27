@@ -1,0 +1,63 @@
+    ion-header {
+    font-family:'Lucida Sans Regular';
+    font-size: x-small;
+    color: rgb(8, 8, 8);
+    text-align: center; 
+    --ion-background-color: rgb(240, 191, 233);
+  }
+  .content {  
+      --ion-background-color: rgb(252, 239, 250);
+  } 
+
+  .widfh {
+    --min-height:3;
+  }
+
+  .widfh_details {
+    font-family:'Lucida Sans Regular';
+    font-size: small;
+    text-align: center; 
+    color: rgb(15, 15, 15);
+  }
+
+  #id_details {
+    padding-left: 5%;
+  }
+
+  #id_div_details {
+    padding-top: 15%;
+  }
+
+  .item_details {
+    color: aliceblue;
+  }
+  h6 {
+    font-family:'Lucida Sans Regular';
+    font-size: small;
+    text-align: center; 
+    color: rgb(15, 15, 15);
+  }
+
+  strong {
+    font-family:'Lucida Sans Regular';
+    font-size: medium;
+    text-align: center;
+    font-style: italic;
+    color: rgb(15, 15, 15);
+  }
+  
+  ion-button {
+    color: rgb(240, 191, 233);
+  }
+
+  .div-img {
+    width: auto; 
+    margin-left: auto;
+    margin-right: auto; 
+  }
+
+  img {
+    height: 6vh !important;
+    width: 6 !important;
+    align-items: center;
+  }

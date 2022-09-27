@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> Pagamento via PIX </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="container" *ngIf="!transation_id">
+  <br>
+  <br>
+  <br>
+  <br>
+  <ion-card>
+    <ion-card-subtitle>Seu pedido</ion-card-subtitle>
+      <ion-card-content>
+        <ion-item *ngFor="let item of cardItems">
+          <h5>{{item.quantidade}} {{item.produto.name}} : </h5> <h6> R$ {{item.produto.price * item.quantidade | number}}</h6>
+        </ion-item>
+        <h5> Valor total de: </h5> <h6> R$ {{total() | number}}</h6>
+      </ion-card-content>
+      <ion-card-content>
+      <h6>
+        {{endereco?.logradouro}}, {{endereco?.numero}}
+        {{endereco?.complemento}} {{endereco?.bairro}} CEP {{endereco?.cep}}
+        {{endereco?.localidade}}, {{endereco?.uf}}
+      </h6>
+      </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content><h5>Cliente: </h5> <h6>{{registro?.cliente?.name}}</h6> </ion-card-content>
+    <ion-card-content><h5>CPF: </h5> <h6>{{registro?.cliente?.cpf}}</h6> </ion-card-content>
+    <ion-card-content><h5>Email: </h5> <h6>{{registro?.email}}</h6> </ion-card-content>
+  </ion-card>
+
+  <ion-button disabled = "{{button}}" type="submit" color="light" expand="block" (click)="checkout()">
+    <ion-spinner *ngIf="sniper" color="secondary" > </ion-spinner>
+    <p *ngIf="sniper"> aguarde ...</p>
+    <p *ngIf="!sniper">Finalizar compra</p>
+  </ion-button>
+  <h6> Após <strong>Finalizar compra</strong> você receberá codigo para efetuar o pagamento. </h6>
+</ion-content>
+
+<ion-content  id="container" *ngIf="transation_id">
+  <br>
+  <br>
+  <br>
+  <br>
+  <div>
+    <h5>A BelaRosa agradece sua preferência. </h5>
+    <h5>Pague usando QRCode atravez de qualque dispositivo.</h5>
+    <ion-card>
+      <img src="{{'data:image/jpeg;base64,' + qr_code_base64}}" />
+    </ion-card>
+    <h3>ou</h3>
+    <ion-card>
+      <ion-item>
+        <p [(ngModel)]="qr_code"> {{qr_code}} </p>
+      </ion-item>
+      <h5>Copie o codigo de pagamento, após o pagamento, enviamos um email confirmado sua compra.</h5>
+      <ion-button (click)="copyData()" color="dark" expand="full">Copiar codigo</ion-button>
+    </ion-card>
+  </div>
+  <ion-button [routerLink]="['/dashboard/index']" color="light" block outline expand="block" > Inicio </ion-button>
+</ion-content>

@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button>back</ion-back-button>
+    </ion-buttons>
+    <h6 class="ion-text-center">categoria->{{categoria?.name}}</h6>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-searchbar animated="true" (ionInput)="onInput($event)"></ion-searchbar>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  <ion-refresher-content refreshingSpinner="circular"></ion-refresher-content>
+  </ion-refresher>
+  <ion-row>
+  <ion-card lines="none" *ngFor="let item of itens" (click)="produtoDetails(item.id)">
+    <ion-img [src]="'https://firebasestorage.googleapis.com/v0/b/bela-rosa-storage-firebase.appspot.com/o/prod%2Fpro27.png?alt=media&amp;token=null' || '../../assets/Camera.svg'"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle> <h6>{{item.name}}</h6></ion-card-subtitle>
+      <ion-card-title>R$ {{item.price | number}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <h6>é a  descrição de um produto.. </h6> 
+    </ion-card-content>
+  </ion-card>
+  </ion-row>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Carregando mais produtos...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "belarosa",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

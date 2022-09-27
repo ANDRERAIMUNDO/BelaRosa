@@ -1,0 +1,101 @@
+<ion-header *ngIf="!transation_id">
+  <ion-toolbar>
+    <ion-title>Finalizar Pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header *ngIf="transation_id">
+  <ion-toolbar>
+    <ion-title>Pedido finalizado</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!transation_id" id="container">
+  <div class="div-img"> <strong> Iformações adicionais</strong> </div>
+  <h5>Iformações:</h5>
+    <ion-item>
+      <p>Cliente: {{registro?.cliente?.name}} </p>
+    </ion-item>
+    <ion-item lines="none">
+      <p>Email: {{registro?.email}} </p>
+    </ion-item>
+    <ion-item lines="none">
+      <p>Phone: {{registro?.cliente.phone}} </p>
+    </ion-item>
+  <h5>Endereço:</h5>
+      <ion-item>
+      <p>Localidade: {{endereco?.logradouro}}, {{endereco?.numero}}, Bairro: {{endereco?.bairro}}, Ref: {{endereco?.complemento}}, {{endereco?.cep}} - {{endereco?.localidade}} - {{endereco?.uf}}</p>
+      </ion-item>
+
+    <ion-list>
+      <h5>Pedido(s): </h5>
+        <ion-item lines="full" *ngFor="let item of cardItems">
+          <ion-label> {{item.quantidade}} {{item.produto.name}} : R$ {{item.produto.price | number}}</ion-label>
+        </ion-item>
+    </ion-list>
+
+  <strong>Total: </strong> <ion-label> R$ {{total() | number}}</ion-label>
+
+  <div>
+    <ion-checkbox color="primary" (ionChange)="onChangeTerm($event)" > </ion-checkbox> <ion-label> Irei retirar na loja dentro do periodo informado. </ion-label>
+  </div>
+  <ion-item></ion-item>
+  <div class="div-img"> <strong> Data de retirada do pedido</strong>
+    <form [formGroup]="formGroupDate">
+      <ion-label class="ion-text-center" position="floating">  <ion-icon name="calendar"></ion-icon> Click aqui <ion-icon name="arrow-down"></ion-icon> </ion-label>
+        <div class="div-img">
+          <ion-item lines="full">
+            <ion-input slot="start" locale="pt-BR" id="date" type="date" formControlName="informacaoDeEntrega" value="2032-12-01" (ionChange)="onChangeDataTime($event)" required > </ion-input>
+          </ion-item>
+        </div>
+        <p *ngIf="formGroupDate.controls.informacaoDeEntrega.dirty && formGroupDate.controls.informacaoDeEntrega.errors" margin-left>Selecinar data. </p>    
+    </form>
+  </div>   
+
+  <ion-button disabled = "{{button}}" *ngIf ="term && informacaoDeEntrega" type="submit" color="light" expand="block" (click)="checkout()">
+    <ion-spinner *ngIf="sniper" color="secondary" > </ion-spinner>
+    <p *ngIf="sniper"> aguarde ...</p>
+    <p *ngIf="!sniper">Finalizar pedido</p>
+  </ion-button>
+  <br>
+  <ion-button [routerLink]="['/dashboard/index']" color="light" expand="block">Voltar</ion-button>
+  <a> Retire na loja, você pode pagar avista, via Pix, nos cartões de credito ou debido. </a>
+  <div class="div-img">
+    <ion-item></ion-item>
+    <img src="../../../assets/icon/visa.png"/>
+    <img src="../../../assets/icon/master-card.png"/>
+    <img src="../../../assets/icon/elo.png"/>
+    <img src="../../../assets/icon/american-express.png"/>
+    <ion-item lines="none"></ion-item>
+    <img src="../../../assets/icon/hipercard.png"/>
+    <img src="../../../assets/icon/mestro.png"/>
+    <img src="../../../assets/icon/pix.png"/>
+    <img src="../../../assets/icon/maquina-de-cartao-de-credito.png"/>
+  </div>
+
+</ion-content>
+
+<ion-content *ngIf="transation_id">
+  <div  class="div-img">
+
+    <h5>A BelaRosa agradece sua preferência. </h5>
+    <h5>Tudo certo, estamos separando seu pedido.</h5>
+ 
+  <a> Retire na loja, você pode pagar avista, via Pix, nos cartões de credito ou debido. </a>
+  <div class="div-img">
+    <ion-item></ion-item>
+    <img src="../../../assets/icon/visa.png"/>
+    <img src="../../../assets/icon/master-card.png"/>
+    <img src="../../../assets/icon/elo.png"/>
+    <img src="../../../assets/icon/american-express.png"/>
+    <ion-item></ion-item>
+    <img src="../../../assets/icon/hipercard.png"/>
+    <img src="../../../assets/icon/mestro.png"/>
+    <img src="../../../assets/icon/pix.png"/>
+    <img src="../../../assets/icon/maquina-de-cartao-de-credito.png"/>
+  </div>
+    <ion-button [routerLink]="['/dashboard/index']" color="light" block outline expand="block" > Inicio </ion-button>
+</div> 
+
+
+</ion-content>

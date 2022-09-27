@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item>
+      <div class="positon">
+        <ion-avatar slot="end">
+          <img [src]="registro?.imageUrl || '../../assets/person.svg'">
+        </ion-avatar>
+      </div>
+      <ion-label>
+        <h3>{{registro?.cliente?.name}}</h3>
+        <p>{{dia}}/{{mes}}/{{ano}}</p>
+        <p>{{registro?.email}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <div class="ion-text-center">
+      <ion-card>
+        <img *ngIf="!picture" id="img-client" [src]="registro?.imageUrl || '../../assets/person.svg'">
+        <ion-img *ngIf="picture" [src]="picture"></ion-img>
+      </ion-card>
+    </div>
+
+    <ion-item id="ion-button-update" (click)="getCameraPicture()">
+      <ion-icon id="ion-icon-button" name="camera-outline"></ion-icon>
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+      <ion-label class="ion-text-center">
+      <h2>Carrerar Imagem</h2>
+      </ion-label>
+    </ion-item>
+    
+    <ion-item *ngIf="picture" id="ion-button-update" (click)="sendPicture()" > 
+      <ion-icon id="ion-icon-button" name="folder-open-outline"></ion-icon>
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+      <ion-label class="ion-text-center">
+      <h2>Enviar Imagem</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="myImage" id="ion-button-update" (click)="cancel()" > 
+      <ion-icon id="ion-icon-button" name="remove-circle-outline"></ion-icon>
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      <ion-label class="ion-text-center">
+      <h2>Cancelar</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item [routerLink]="['../../profile']" id="ion-button-update">
+      <ion-icon id="ion-icon-button" name="person-outline"></ion-icon> 
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      <ion-label class="ion-text-center">
+      <h2>Voltar</h2>
+      </ion-label>
+    </ion-item>
+    
+  </div>
+</ion-content>

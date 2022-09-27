@@ -1,0 +1,67 @@
+ion-header {
+  font-family:'Lucida Sans Regular';
+  font-size: x-small;
+  color: rgb(8, 8, 8);
+  text-align: length; 
+  --ion-background-color: rgb(240, 191, 233);
+}
+
+ion-card  {
+    width: 160px; 
+    height: 230px;
+  }
+  
+  ion-card-title {
+    font-family:'Lucida Sans Regular';
+    font-size: small;
+    color: rgb(8, 8, 8);
+    text-align: length; 
+    width: 75; 
+    height: 75;
+    }
+  
+  ion-img {
+    width: auto; 
+    height: auto;
+  }
+  
+  img {
+    width: auto; 
+    height: auto;
+  }
+  
+  ion-card-title {
+    font-family:'Lucida Sans Regular';
+    font-size: smaller;
+    color: rgb(8, 8, 8);
+    text-align: length; 
+  }
+  
+  ion-header {
+    font-family:'Lucida Sans Regular';
+    font-size: x-small;
+    color: rgb(8, 8, 8);
+    text-align: length; 
+    --ion-background-color: rgb(240, 191, 233);
+  }
+
+  ion-content {  
+    --ion-background-color: rgb(252, 239, 250);
+  } 
+  
+  h6 {
+    font-family:'Lucida Sans Regular';
+    font-size: small;
+    text-align: left;
+    text-align-last: left; 
+    color: rgb(15, 15, 15);
+  }
+  
+  ion-icon {
+    width: 20px; 
+    height: 20px;
+  }
+
+  ion-button {
+    color: rgb(240, 191, 233);
+  }

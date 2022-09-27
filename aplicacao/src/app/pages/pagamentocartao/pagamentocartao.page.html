@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <h6>Pagamento com cartão de credito</h6>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  
+  <ion-card>
+    <ion-card-header>
+    <ion-card-subtitle>Dados do Cartão</ion-card-subtitle>
+    <form [formGroup]="formGroupCartao">
+
+      <ion-item lines="full">
+        <ion-label class="ion-text-center" position="floating">Número do cartão</ion-label>
+        <ion-input formControlName="numero" inputmode="tel" type="numeric" maxlength="16" required (ionChange)="onChange($event)" ></ion-input>
+      </ion-item>  
+      <p *ngIf="formGroupCartao.controls.numero.dirty && formGroupCartao.controls.numero.errors" margin-left>Obrigatório. </p>
+      
+      <ion-item lines="full">
+        <ion-label class="ion-text-center" position="floating">Nome impresso no cartão</ion-label>
+        <ion-input formControlName="titular" class="ion-text-uppercase" inputmode="text" type="text" required></ion-input>
+      </ion-item>
+      <p *ngIf="formGroupCartao.controls.titular.dirty && formGroupCartao.controls.titular.errors" margin-left>Obrigatório. </p>
+
+      <ion-item lines="full">
+        <ion-thumbnail class="ion-thumbnail" item-end> <img [src]="imageUrl"> </ion-thumbnail>
+        <ion-input slot="start" formControlName="paymentMethodId" type="hidden" id="paymentMethodId" name="paymentMethodId" > {{ paymentMethodId }} </ion-input>
+      </ion-item>
+
+      <ion-item lines="full">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <ion-label class="ion-text-center" position="floating">Validade</ion-label>
+        <ion-datetime locale="pt-BR" formControlName="validade" displayFormat="MM/YY" min="2022" max="2032-12-31" doneText="Definir" cancelText="Cancelar" value="21-12" (ionChange)="onChangeDataTime($event)" required> </ion-datetime>
+      </ion-item>
+      <p *ngIf="formGroupCartao.controls.validade.dirty && formGroupCartao.controls.validade.errors" margin-left>Obrigatório. </p>
+
+    </form>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Lembre-se, não salvamos dados do seu cartão, não ligamos para você pedindos seus dados 
+      e não enviamos links solicitando sua senha via sms ou notificação por aplicativo.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-subtitle>Escolher a quantidade de parcelas</ion-card-subtitle>
+    <ion-list lines="none">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-label>Parcelar em </ion-label>
+          <ion-select  [disabled]="formGroupCartao.invalid" formControlName="numerosDeParcelas" type="text" name="numerosDeParcelas" (ionChange)="onChangeInstalment($event)" required >
+            <ion-select-option *ngFor="let item of data" [value]="item"> {{ item.installments }} de {{ item.installment_rate / item.installments + amount / item.installments | currency }} ({{item.installment_rate + amount}}) </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <p *ngIf="formGroup.controls.numerosDeParcelas.dirty && formGroup.controls.numerosDeParcelas.errors" margin-left>Obrigatório. </p>
+      </form> 
+    </ion-list>  
+    <ion-card-header>
+      <ion-card-subtitle *ngIf ="payment.installments >0" >Total do seu pedido: R{{ amount + installment_rate| currency}}</ion-card-subtitle>
+      <ion-card-title *ngIf ="payment.installments >0" > você escolheu: {{payment.installments}} parcelas de: R{{total | currency}}</ion-card-title>
+    </ion-card-header>  
+    <ion-card-content>
+      Para segurança se você fechar ou abrir outra pagina, 
+      ou reniciar apliacação, esses dados serão removidos.
+    </ion-card-content>
+  </ion-card>
+  <ion-button *ngIf ="payment.installments >0"  type="submit" color="light" expand="block" (click)="onSubmit()">Avançar na compra</ion-button>
+  <ion-button [routerLink]="['/dashboard/index']" color="light" expand="block">Voltar novamente</ion-button>
+  <div class="div_img">
+    <ion-item></ion-item>
+    <img id="img_card" class="div-ion-text-center" src="../../../assets/icon/visa.png"/>
+    <img id="img_card" class="div-ion-text-center" src="../../../assets/icon/master-card.png"/>
+    <img id="img_card" class="div-ion-text-center" src="../../../assets/icon/elo.png"/>
+    <img id="img_card" class="div-ion-text-center" src="../../../assets/icon/american-express.png"/>
+    <img id="img_card" class="div-ion-text-center" src="../../../assets/icon/hipercard.png"/>
+    <img id="img_card" class="div-ion-text-center" src="../../../assets/icon/mestro.png"/>
+  </div>
+</ion-content>

@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title><h6>Seus pedidos</h6></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="total() <= 0">
+  <div  id="container-no-cart" >
+    <ion-label>
+      <ion-img [src]="'../../assets/emoji-no-cart.svg'"></ion-img>
+    </ion-label>
+    <br>
+    <ion-label class="ion-text-center"> 
+      <strong>Seu carrinho está vazio</strong>
+    </ion-label>
+    <br>
+    <ion-button [routerLink]="['/dashboard/index']" color="light" block outline expand="block" >Inicio</ion-button>  
+  </div>
+</ion-content>
+
+<ion-content *ngIf="total() > 0">
+  <div id="container">
+    <ion-list >
+      <ion-item *ngFor="let itens of itens">
+        <ion-avatar slot="start"> <img [src]="itens.produto.imageUrl || '../../assets/Camera.svg'"> </ion-avatar>
+        <ion-label>
+          <h2>{{itens.produto.name}}</h2>
+          <h3>R$ {{itens.produto.price | number}}</h3>
+          <p>{{itens.quantidade}}</p>
+        </ion-label>
+          <ion-icon id="ion-icon-nolinebreak-remove" class="nolinebreak" name="remove-circle" (click)="removerQuantidade(itens.produto)"></ion-icon>
+          <br>
+          <p class="nolinebreak">{{itens.quantidade}}</p>
+          <br>
+          <ion-icon id="ion-icon-nolinebreak-add" name="add-circle" color="primary" (click)="addQuantidade(itens.produto)"></ion-icon>
+          <br>
+          <ion-icon id="ion-icon-nolinebreak" name="trash" item-end color="danger" (click)="removeItem(itens.produto)"></ion-icon>
+      </ion-item>
+    </ion-list>
+    <ion-item *ngIf="total() > 0">
+      <h3>Total: </h3>
+      <h3 item-right> R$ {{total() | number}}</h3>
+    </ion-item>
+      <ion-button *ngIf ="total() > 0" color="light" block outline expand="block" (click)="navigate()">Finalize seu pedido</ion-button>
+      <ion-button [routerLink]="['/dashboard/index']" color="light" block outline expand="block" >Continue comprando</ion-button>  
+  </div>
+</ion-content>
+
+<app-explore-container> </app-explore-container>

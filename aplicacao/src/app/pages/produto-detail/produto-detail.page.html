@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button>back</ion-back-button>
+    </ion-buttons>
+    <h6>Informações do produto</h6>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content *ngIf="codRegistro" padding [fullscreen]="true">
+  <div>
+    <ion-card>
+      <ion-img  [src]="item?.imageUrl || '../../assets/Camera.svg'"></ion-img>
+    </ion-card>
+  
+    <div class="ion-text-center">
+      <ion-label>{{detail?.name}}</ion-label>
+      <h6> {{item?.name}}</h6>
+      <p *ngIf="item?.price != 0.0"> R$ {{item.price | number}}</p>
+      <h5 *ngIf="item?.price == null"> Produto indisponivel no momento. </h5>
+    </div>
+      <ion-button *ngIf="item?.price != null" block outline expand="block" color="light" (click)="addToCard(item)">Adicionar ao carrinho</ion-button>
+      <ion-button [routerLink]="['/dashboard/index']" block outline expand="block" color="light">Continue comprando</ion-button>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="!codRegistro" padding [fullscreen]="true">
+  <div>
+      <ion-card>
+        <ion-img  [src]="item?.imageUrl || '../../assets/Camera.svg'"></ion-img>
+      </ion-card>
+    
+      <div class="ion-text-center">
+        <ion-label>{{detail?.name}}</ion-label>
+        <h6> {{item?.name}}</h6>
+        <p>
+          R$ {{item?.price}}
+        </p>
+      </div>
+      
+      <div>
+          <ion-label>Já tem conta ? </ion-label>
+          <ion-button block outline expand="block" color="light" [routerLink]="['/login']">Entrar na conta</ion-button>
+      </div>
+     
+      <div>
+          <ion-label> Não possui um conta ? </ion-label>
+          <ion-button [routerLink]="['/registration']" block outline expand="block" color="light">Criar nova conta</ion-button>
+      </div>
+
+  </div>
+</ion-content>

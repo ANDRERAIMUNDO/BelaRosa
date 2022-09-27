@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Formas de Pagamento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-label> 
+      <h6>Pagamento com cartão de credito</h6>
+      <br>
+      <ion-button color="light"  expand="block" (click)="pagamentoCartao()" >Cartão de credito</ion-button>
+    </ion-label>
+
+    <ion-label> 
+      <h6>Pagamento com PIX</h6>
+      <br>
+      <ion-button color="light"(click)="pagamentoPix()" expand="block">Pix</ion-button>
+    </ion-label>
+
+    <ion-label> 
+      <h6>Pagamento a vista</h6>
+      <br>
+      <ion-button color="light" (click)="pagamentoVistaLoja()"  expand="block">Pagamento a vista retirar na loja</ion-button>
+    </ion-label>
+  
+    <ion-card-content>
+      Escolha a forma de pagamento, lembre-se entregas somente para região
+      com cep <p>68655-000</p>.
+    </ion-card-content>
+  </ion-card>
+
+<ion-button [routerLink]="['/dashboard/cards']"color="light" expand="block">Voltar</ion-button>
+</ion-content>

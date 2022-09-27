@@ -1,0 +1,10 @@
+<ion-content [fullscreen]="true">
+  <div>
+    <ion-list class="list">
+      <ion-item *ngFor="let item of items" (click)="showProdutos(item.id)" >
+        <h5 class="ion-text-center">{{item.name}}</h5>
+      </ion-item>
+    </ion-list>
+    <ion-button [routerLink]="['/dashboard/index']" color="light" block outline expand="block" >Inicio</ion-button> 
+  </div>
+</ion-content>

@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button>back</ion-back-button>
+    </ion-buttons>
+    <ion-title><h5>Criar sua conta</h5></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content" [fullscreen]="true">
+  <div id="container"> 
+    <img src="../../assets/logobelarosa.png" />
+    <br>
+    <br>
+    <h5 class="ion-text-center">Passo 1 de 3</h5>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+
+              <ion-item lines="full">
+                <ion-label position="floating">Email</ion-label>
+                <ion-input formControlName="email" type="text" required></ion-input>
+              </ion-item>
+              <p *ngIf="formGroup.controls.email.dirty && formGroup.controls.email.errors" margin-left>Email em formato invalido. </p>
+              <p *ngIf="emailMsg">Emails estão diferentes. </p>
+              
+              <ion-item lines="full">
+                <ion-label position="floating">Repetir email</ion-label>
+                <ion-input formControlName="emailConfirm" type="text" (ionChange)="onChangeEmail($event)" required ></ion-input>
+              </ion-item>
+              <p *ngIf="formGroup.controls.emailConfirm.dirty && formGroup.controls.emailConfirm.errors" margin-left>Email em formato invalido. </p>
+              <p *ngIf="emailMsg">Emails estão diferentes. </p>
+
+              <ion-item lines="full">
+                <ion-label position="floating">Senha</ion-label>
+                <ion-input formControlName="password" type={{senha}} required ></ion-input>
+
+                <ion-button id="container-button" color="light" fill="clear" slot="end" (click)="showPassword()">
+                  <img id="imagem-visao" src="../../assets/visao.png"/>
+               </ion-button>
+              </ion-item>
+              <p *ngIf="formGroup.controls.password.dirty && formGroup.controls.password.errors" margin-left>Valor invalido. </p>
+              <p *ngIf="passwordMsg">Senhas estão diferentes.</p>
+             
+              <ion-item lines="full">
+                <ion-label position="floating">Repetir Senha</ion-label>
+                <ion-input formControlName="passwordConfirm" type={{senha}} (ionChange)="onChangePassword($event)" required ></ion-input>
+              </ion-item>
+              <p *ngIf="formGroup.controls.passwordConfirm.dirty && formGroup.controls.passwordConfirm.errors" margin-left>Valor invalido. </p>
+              <p *ngIf="passwordMsg">Senhas estão diferentes.</p>
+             
+              <ion-row>
+                <ion-col>
+                  <ion-button disabled = "{{button}}" *ngIf="!validEmailMsg && !validPasswordMsg" type="submit" color="light" expand="block">
+                    <ion-spinner *ngIf="sniper" color="secondary" > </ion-spinner>
+                    <h4 *ngIf="sniper"> aguarde ...</h4>
+                    <h4 *ngIf="!sniper">Criar nova conta</h4>
+                  </ion-button>
+                  <a class="small-text">Criar nova conta ? </a>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-button [routerLink]="['/login']" color="light" expand="block"> Voltar </ion-button>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <a class="small-text" [routerLink]="['/forgot-password']" > Possui uma conta e não consegue acessar ? </a> 
+                </ion-col>
+            </ion-row>
+            </form>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

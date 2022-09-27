@@ -1,0 +1,139 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Meus Pedidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content">
+  <div *ngIf="!details">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content refreshingSpinner="circular"></ion-refresher-content>
+    </ion-refresher>
+    
+    <ion-list *ngFor="let item of itens" (click)="pedidoDetails(item.id)">
+      <ion-item class="widfh" lines="none">
+        <strong>{{item.instante}}</strong>
+      </ion-item>
+
+      <ion-item class="widfh">
+        <h6> Situação: {{item.pagamento.situacaoPedido | json}}
+          <br>Pedido: {{item.itens[0].quantidade | json}} {{item.itens[0].produto.name}}
+          <br>Valor: R$ {{ item.valorTotal | number }}
+          <br>Status do Pedido: 
+          <strong *ngIf="item.statusPayment != null">{{ item.statusPayment | json }}</strong> 
+          <strong *ngIf="item.pixPayment_id != null">{{ item.pixPayment_id | json }}</strong> 
+          <strong *ngIf="item.reservaPedido != null">{{ item.reservaPedido | json }}</strong> 
+         </h6>
+      </ion-item>
+    </ion-list>
+    
+  </div>
+ 
+  <div *ngIf="details">
+    <div id="id_div_details"></div>
+    <div *ngIf="statusPaymentDetails_select !=  null">
+      <ion-item class="item_details">
+        <a>{{ pedido.instante}}</a>
+        <strong id="id_details">Pedido: {{ pedido?.id | json}} </strong>
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details">{{pedido?.itens[0]?.quantidade | json}}  {{pedido?.itens[0].produto.name | json}}</p>
+      </ion-item>
+      <ion-item class="item_details">
+        <strong id="id_details">Preço: </strong>
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details"> {{ processPayment?.installments | number }} x {{ processPayment?.transaction_amount / processPayment?.installments | number }} = {{ processPayment?.transaction_amount | number }}</p>
+      </ion-item>
+      <ion-item class="item_details">
+        <strong id="id_details">Pagamento: </strong>
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details"> {{ processPayment?.description | json }} </p>
+      </ion-item>
+      <ion-item class="item_details">
+        <strong id="id_details">Situação: </strong> 
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details"> processo: {{  statusPayments?.process_payment_id | json}} = {{ statusPayments?.status_detail | json }} - {{ statusPayments?.status | json }}</p>
+      </ion-item>
+      <ion-item class="item_details">
+        <strong id="id_details">Endereço do pedido: </strong>
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details"> {{ endereco?.logradouro| json }}, {{ endereco?.numero| json }}, {{ endereco?.bairro| json }}, {{ endereco?.complemento| json }} - {{ endereco?.cep| json}}, {{ endereco?.localidade| json}} - {{ endereco?.uf| json }}</p>
+      </ion-item>
+    </div>
+    <div *ngIf="pixPaymentDetails_select !=  null">
+      <ion-item class="item_details">
+        <a>{{ pedido.instante}}</a>
+        <strong id="id_details">Pedido: {{ pixPayment?.id_process }} </strong>
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details">{{pedido?.itens[0]?.quantidade | json}}  {{pedido?.itens[0].produto.name | json}}</p>
+      </ion-item>
+      <ion-item class="item_details">
+        <strong id="id_details">Preço: </strong>
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details"> {{ pixPayment?.pixTransactionDetails?.total_paid_amount | number }} </p>
+      </ion-item>
+      <ion-item class="item_details">
+        <strong id="id_details">Pagamento: </strong>
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details"> {{ pixPayment?.pixTransactionDetails?.external_resource_url }} </p>
+      </ion-item>
+      <ion-item class="item_details">
+        <strong id="id_details">Situação: </strong> 
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details"> processo: {{  pixPayment?.status| json }} = {{ pixPayment?.status_detail| json }} </p>
+      </ion-item>
+      <ion-item class="item_details">
+        <strong id="id_details">Endereço do pedido: </strong>
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details"> {{ endereco?.logradouro| json }}, {{ endereco?.numero| json }}, {{ endereco?.bairro| json }}, {{ endereco?.complemento| json }} - {{ endereco?.cep| json}}, {{ endereco?.localidade| json}} - {{ endereco?.uf| json }}</p>
+      </ion-item>
+    </div>
+    <div *ngIf="reservaPedidoDetails_select !=  null">
+      <ion-item class="item_details">
+        <a>{{ pedido.instante}}</a>
+        <strong id="id_details">Pedido: {{ pedido?.id }} </strong>
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details">{{pedido?.itens[0]?.quantidade | json}}  {{pedido?.itens[0].produto.name | json}}</p>
+      </ion-item>
+      <ion-item class="item_details">
+        <strong id="id_details">Preço: </strong>
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details"> {{ pedido?.valorTotal| number }} </p>
+      </ion-item>
+      <ion-item class="item_details">
+        <strong id="id_details">Situação: </strong> 
+      </ion-item>
+      <ion-item>
+        <p class="widfh_details"> processo: {{ pedido?.reservaPedido| json }} </p>
+      </ion-item>
+      <ion-item class="item_details">
+        <strong id="id_details">Pagamento: </strong>
+      </ion-item>
+      <a> Retire na loja, você pode pagar avista, via Pix, nos cartões de credito ou debido. </a>
+      <div class="div-img">
+        <ion-item></ion-item>
+        <img src="../../../assets/icon/visa.png"/>
+        <img src="../../../assets/icon/master-card.png"/>
+        <img src="../../../assets/icon/elo.png"/>
+        <img src="../../../assets/icon/american-express.png"/>
+        <ion-item lines="none"></ion-item>
+        <img src="../../../assets/icon/hipercard.png"/>
+        <img src="../../../assets/icon/mestro.png"/>
+        <img src="../../../assets/icon/pix.png"/>
+        <img src="../../../assets/icon/maquina-de-cartao-de-credito.png"/>
+      </div>
+    </div>
+    <ion-button expand="block" (click)="backProfile()" color="light" >voltar</ion-button>
+  </div>
+</ion-content>
